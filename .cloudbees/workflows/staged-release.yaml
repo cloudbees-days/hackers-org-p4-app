@@ -30,12 +30,14 @@ jobs:
       manifest: ${{ inputs.manifest }}
       environment: ${{ job.environment }}
     secrets: inherit
+    vars: inherit
   hackers-org-p4-qa:
     uses: ./.cloudbees/workflows/deployer.yaml
     with:
       manifest: ${{ inputs.manifest }}
       environment: ${{ job.environment }}
     secrets: inherit
+    vars: inherit
   hackers-org-p4-staging:
     needs:
       - hackers-org-p4-qa
@@ -44,3 +46,4 @@ jobs:
       manifest: ${{ inputs.manifest }}
       environment: ${{ job.environment }}
     secrets: inherit
+    vars: inherit
