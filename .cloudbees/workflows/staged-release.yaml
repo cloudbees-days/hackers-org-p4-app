@@ -1,0 +1,46 @@
+apiVersion: automation.cloudbees.io/v1alpha1
+kind: workflow
+name: My workflow
+on:
+  workflow_dispatch:
+    inputs:
+      manifest:
+        type: string
+        required: true
+        description: This is a system-generated parameter and is required for use in
+          application releases. Refer to
+          https://docs.cloudbees.com/docs/cloudbees-platform/latest/applications/releases#manifest
+          for the expected format
+metadata:
+  stages/v1alpha1:
+    - name: hackers-org-p4-qa
+      jobs:
+        - hackers-org-p4-qa
+    - name: hackers-org-p4-staging
+      jobs:
+        - hackers-org-p4-staging
+    - name: hackers-org-p4-prod
+      jobs:
+        - hackers-org-p4-prod
+jobs:
+  hackers-org-p4-prod:
+    environment: hackers-org-p4-prod
+    uses: ./.cloudbees/workflows/deployer.yaml
+    with:
+      manifest: ${{ inputs.manifest }}
+      environment: ${{ job.environment }}
+    needs: hackers-org-p4-staging
+  hackers-org-p4-qa:
+    environment: hackers-org-p4-qa
+    uses: ./.cloudbees/workflows/deployer.yaml
+    with:
+      manifest: ${{ inputs.manifest }}
+      environment: ${{ job.environment }}
+  hackers-org-p4-staging:
+    needs:
+      - hackers-org-p4-qa
+    environment: hackers-org-p4-staging
+    uses: ./.cloudbees/workflows/deployer.yaml
+    with:
+      manifest: ${{ inputs.manifest }}
+      environment: ${{ job.environment }}
