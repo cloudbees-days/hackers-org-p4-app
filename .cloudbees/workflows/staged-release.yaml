@@ -24,23 +24,23 @@ metadata:
         - hackers-org-p4-prod
 jobs:
   hackers-org-p4-prod:
-    environment: hackers-org-p4-prod
-    uses: ./.cloudbees/workflows/deployer.yaml
-    with:
-      manifest: ${{ inputs.manifest }}
-      environment: ${{ job.environment }}
     needs: hackers-org-p4-staging
-  hackers-org-p4-qa:
-    environment: hackers-org-p4-qa
     uses: ./.cloudbees/workflows/deployer.yaml
     with:
       manifest: ${{ inputs.manifest }}
       environment: ${{ job.environment }}
+    secrets: inherit
+  hackers-org-p4-qa:
+    uses: ./.cloudbees/workflows/deployer.yaml
+    with:
+      manifest: ${{ inputs.manifest }}
+      environment: ${{ job.environment }}
+    secrets: inherit
   hackers-org-p4-staging:
     needs:
       - hackers-org-p4-qa
-    environment: hackers-org-p4-staging
     uses: ./.cloudbees/workflows/deployer.yaml
     with:
       manifest: ${{ inputs.manifest }}
       environment: ${{ job.environment }}
+    secrets: inherit
