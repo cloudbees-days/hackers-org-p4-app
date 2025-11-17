@@ -16,8 +16,8 @@ jobs:
     if: ${{ fromJSON(inputs.manifest)['hackers-org-p4']['index.docker.io/cloudbeesdemo/hackers-organized'].deploy }}
     uses: cloudbees-days/hackers-org-p4/.cloudbees/workflows/deploy.yaml
     with:
-      artifactVersion: ${{ fromJSON(inputs.manifest)['hackers-org-p4']['cloudbeesdemo/index.docker.io/cloudbeesdemo/hackers-organized'].version }}
-      artifact-id: ${{ fromJSON(inputs.manifest)['hackers-org-p4]['cloudbeesdemo/index.docker.io/cloudbeesdemo/hackers-organized'].id }}
+      artifactVersion: ${{ fromJSON(inputs.manifest)['hackers-org-p4']['index.docker.io/cloudbeesdemo/hackers-organized'].version }}
+      artifact-id: ${{ fromJSON(inputs.manifest)['hackers-org-p4]['index.docker.io/cloudbeesdemo/hackers-organized'].id }}
       environment: ${{ inputs.environment }}
     secrets: inherit
     vars: inherit
